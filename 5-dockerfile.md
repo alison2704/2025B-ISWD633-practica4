@@ -53,17 +53,24 @@ docker build -t <nombre imagen>:<tag> .
 ### Ejecutar el archivo Dockerfile y construir una imagen en la versión 1.0
 No olvides verificar en qué directorio se encuentra el archivo Dockerfile
 ```
-
+docker build -t mi_apache:1.0 .
 ```
 
+
 **¿Cuántos pasos se han ejecutado?**
-# RESPONDER 
+Se ejecutaron 8 pasos. A pesar de que en el Dockerfile hay 5, esto porque en Docker Desktop se desglosa algunas instrucciones internas.
+
+![alt text](image-4.png)
+
 
 ### Inspeccionar la imagen creada
-# COMPLETAR CON UNA CAPTURA
+![alt text](image-5.png)
 
 **Modificar el archivo index.html para incluir su nombre y luego crear una nueva versión de la imagen anterior**
 **¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen**
+* Se ejecutaron 8 pasos en total como la versión anterior. Pero no todos los pasos se ejecutaron, por ejemplo, RUN dnf -y install httpd fue reutilizado de la caché. Y solo se ejecutó nuevamente porque se modificó el index.html con mi nombre.
+Y la diferencia entre la creación de la imagen es el tiempo de ejecución. en la primera se demoró más tiempo.
+
 
 ## Mecanismo de caché
 Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso de construcción y evitar la repetición de pasos que no han cambiado. Cada instrucción en un Dockerfile crea una capa en la imagen final. Docker intenta reutilizar las capas de una construcción anterior si no han cambiado, lo que reduce significativamente el tiempo de construcción.
@@ -75,14 +82,16 @@ Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso
 
 ### Crear un contenedor a partir de las imagen creada, mapear todos los puertos
 ```
-
+docker run -d --name contenedorApache -p 8080:80 mi_apache:1.1 
 ```
+![alt text](image-6.png)
 
 ### ¿Con que puerto host se está realizando el mapeo?
-# COMPLETAR CON LA RESPUESTA
+Con el 8080
+![alt text](image-8.png)
 
 **¿Qué es una imagen huérfana?**
-# COMPLETAR CON LA RESPUESTA
+Una imagen huérfana es una imagen que no tiene ninguna etiqueta y no está asociada a ningún contenedor en ejecución.
 
 ### Identificar imágenes huérfanas
 ```

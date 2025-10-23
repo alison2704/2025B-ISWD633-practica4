@@ -1,6 +1,13 @@
-FROM centos:7
-RUN yum -y update
-RUN yum -y install httpd
+FROM quay.io/centos/centos:stream9
+
+# instalar Apache directamente
+RUN dnf -y install httpd
+
+# copiar archivos locales
 COPY ./web /var/www/html
+
+# exponer puerto 80
 EXPOSE 80
-CMD ["apachectl", "-D", "FOREGROUND"]
+
+# ejecutar apache en primer plano
+CMD ["httpd", "-DFOREGROUND"]
